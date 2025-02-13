@@ -1,13 +1,48 @@
 import ConnectedHome from '../../components/Connected/Home';
 import Container from '../../components/Container';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
+// Je regarderai ça quand j'aurai les JWT et Refresh et surtout si c'est une bonne pratique..
+// ça m'a l'air un peu hard mais en meme temps plus direct que la methode du useEffect
+// export async function getServerSideProps(context) {
+// 	const { req } = context;
+// 	const token = req.cookies.token || null;
+
+// 	if (!token) {
+// 		return {
+// 			redirect: {
+// 				destination: '/',
+// 				permanent: false,
+// 			},
+// 		};
+// 	}
+
+// 	return {
+// 		props: {},
+// 	};
+// }
 
 function Index() {
-	return (
+	const router = useRouter();
+	const user = useSelector(state => state.user.value);
+	const [isHidden, setIsHidden] = useState(false)
+
+	useEffect(() => {
+		if (!user.token) {
+			router.push('/');
+			return;
+		}
+
+		setIsHidden(true);
+	}, [user.token]);
+
+	return isHidden ? (
 		<Container>
 			<ConnectedHome />
 		</Container>
-	);
+	) : (<div className="h-dvh w-dvh overflow-hidden bg-slate-500"></div>)
 }
 
 export default Index;

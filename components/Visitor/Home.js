@@ -44,7 +44,6 @@ function Home() {
 		const response = await axios.post(`http://localhost:3000/users/${type}`, {...userInfo});
 
 		if (response.data.result) {
-			console.log({token : response.data.token, username : userInfo.username, firstname: response.data.firstname || userInfo.firstname});
 			dispatch(addUser({
 				token : response.data.token, 
 				username : userInfo.username, 
