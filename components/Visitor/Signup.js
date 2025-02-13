@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '../Misc/Button';
 
 import Image from 'next/image';
+import Logo from '../Misc/Logo';
 
 function Signup() {
     const [firstname, setFirstname] = useState("");
@@ -16,7 +17,7 @@ function Signup() {
     return (
         <form onSubmit={handleSubmit} className="w-full">
             <div className="text-center">
-                <Image className="rotate-180" width={80} height={80} src="/logo-twitter.png" />
+                <Logo />
                 <h2 className="text-2xl font-bold mb-4">Create your Hackatweet account</h2>
             </div>
 

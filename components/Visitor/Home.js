@@ -4,12 +4,12 @@ import Image from 'next/image';
 import Button from '../Misc/Button';
 import Signin from './Signin';
 import Signup from './Signup';
+import Logo from '../Misc/Logo';
 import { Modal } from "antd";
 
 function Home() {
 	const [open, setOpen] = useState([false, false]);
 	const [loading, setLoading] = useState(false);
-
 
 	const toggleOpenModal = (id, open) => {
 		setOpen((p) => {
@@ -36,7 +36,7 @@ function Home() {
 			<section className="bg-slate-800 h-full w-7/12">
 				<div className="flex flex-col h-full w-full justify-center relative p-8 text-white">
 					<div className="absolute top-5 left-5">
-						<Image className="rotate-180" width={80} height={80} src="/logo-twitter.png" />
+						<Logo />
 					</div>
 
 					<div className="font-bold">
