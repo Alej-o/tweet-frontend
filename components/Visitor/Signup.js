@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import Button from '../Misc/Button';
+import React, { useEffect, useRef } from "react";
+import Logo from "../Misc/Logo";
 
-import Image from 'next/image';
-import Logo from '../Misc/Logo';
-
-function Signup() {
-    const [firstname, setFirstname] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+function Signup({ handleInputUserChange, signup, userInfo, focusSignup }) {
+    useEffect(() => {
+        if (focusSignup?.current) {
+            focusSignup.current.focus();
+        }
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,12 +23,13 @@ function Signup() {
             <div className="mb-4 m-auto w-6/12">
                 {/* <label className="block text-gray-600 text-sm font-medium mb-1">Firstname</label> */}
                 <input
+                    ref={focusSignup}
                     type="text"
                     className="w-full bg-transparent px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your firstname"
-                    value={firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
-                    required
+                    value={userInfo.firstname}
+                    name="firstname"
+                    onChange={(e) => handleInputUserChange(e)}
                 />
             </div>
 
@@ -39,9 +39,9 @@ function Signup() {
                     type="text"
                     className="w-full bg-transparent px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Choose a username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
+                    name="username"
+                    value={userInfo.username}
+                    onChange={(e) => handleInputUserChange(e)}
                 />
             </div>
 
@@ -51,13 +51,13 @@ function Signup() {
                     type="password"
                     className="w-full bg-transparent px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                    name="password"
+                    value={userInfo.password}
+                    onChange={(e) => handleInputUserChange(e)}
                 />
             </div>
             <div className="text-center w-6/12 m-auto">
-                <Button className="bg-white text-slate-800 w-full hover:opacity-80">Sign up</Button>
+                <button onClick={(e) => signup(e, 'signup')} className="rounded-full text-slate-800 bg-white h-10 w-52 bg-transparent hover:opacity-80 mb-4">Sign up</button>
             </div>
         </form>
     )
