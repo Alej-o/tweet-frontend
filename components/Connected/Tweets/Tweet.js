@@ -21,8 +21,9 @@ const formatHashtag = (string) => {
     );
 }
 
-function Tweet({ deleteTweet, tweet, user}) {
-    const [isLike, setIsLike] = useState(tweet.isLiked);
+function Tweet({ deleteTweet, setTweets, tweets, tweet, user}) {
+    // const [isLike, setIsLike] = useState(false);
+    // const [inTweet, setInTweet] = useState(tweet);
 
     const handleLike = async () => {
         try {
@@ -32,8 +33,21 @@ function Tweet({ deleteTweet, tweet, user}) {
             });
 
             if (response.data.result) {
-                isLike ? tweet.like -= 1 : tweet.like += 1;
-                setIsLike(!isLike);
+                // setTweets(prev => {...prev, })
+                // const theTweets = tweets.map(elem => {
+                //     if (elem._id === tweet._id) {
+                //         retszqaw< ytrfedszqw<=  %£%MLU    urn {...elem, isLiked: !theTweet.isLiked, like : (!theTweet.isLiked ? theTweet.like + 1 : theTweet.like - 1)}
+                //     }
+                    
+                //     return elem;
+                // });
+                setTweets(tweets.map(elem => {
+                    if (elem._id === tweet._id) {
+                        return {...elem, isLiked: !tweet.isLiked, like : (!tweet.isLiked ? tweet.like + 1 : tweet.like - 1)}
+                    }
+                    
+                    return elem;
+                }))
             }
         } catch (e) {
             console.error('Error with axios POST /tweets/addLike', e);
@@ -62,7 +76,7 @@ function Tweet({ deleteTweet, tweet, user}) {
                 <p>{formatHashtag(tweet.content)}</p>
             </div>
             <div className="flex gap-3">
-                <span><FontAwesomeIcon onClick={handleLike} className={`cursor-pointer hover:opacity-80 ${isLike && 'text-red-500'}`} icon={faHeart} />&nbsp;<span>{tweet.like}</span></span>
+                <span><FontAwesomeIcon onClick={handleLike} className={`cursor-pointer hover:opacity-80 ${tweet.isLiked && 'text-red-500'}`} icon={faHeart} />&nbsp;<span>{tweet.like}</span></span>
                 {user.token === tweet.user.token && <span><FontAwesomeIcon onClick={handleDelete} className={`cursor-pointer hover:opacity-80`} icon={faTrash} /></span>}
             </div>
         </div>

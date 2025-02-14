@@ -41,7 +41,7 @@ function TweetsList({ tweets, setTweets, loading, handleSideMenu, deleteTweet })
 
             <div>
                 {tweets.map((tweet, index) => (
-                    <Tweet deleteTweet={deleteTweet} key={index} tweet={tweet} user={user} />
+                    <Tweet setTweets={setTweets} tweets={tweets} deleteTweet={deleteTweet} key={index} tweet={tweet} user={user} />
                 ))}
             </div>
 

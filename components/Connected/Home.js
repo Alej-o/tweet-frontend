@@ -157,7 +157,7 @@ function Home() {
 			<TweetsList tweets={tweets} setTweets={setTweets} loading={loading} deleteTweet={deleteTweet} handleSideMenu={handleSideMenu} />
 
 			<FontAwesomeIcon onClick={() => handleSideMenu('right')} className={`${rightMenu ? '-translate-x-full' : 'translate-x-0'} transition-transform cursor-pointer hover:opacity-80 absolute z-20 text-xl right-4 top-4 text-white md:hidden`} icon={!rightMenu ? faStar : faClose} />
-			<aside className={`${!rightMenu ? 'translate-x-full' : 'translate-x-0'} h-full z-10 translate-x-full absolute md:static top-0 right-0 transition-transform md:translate-x-0  w-6/12 md:w-3/12 bg-slate-800 shadow-md shadow-slate-900 md:shadow-none md:border-l md:border-slate-500 overflow-auto`}>
+			<aside className={`${!rightMenu ? 'translate-x-full' : 'translate-x-0'} h-full z-10 absolute md:static top-0 right-0 transition-transform md:translate-x-0  w-6/12 md:w-3/12 bg-slate-800 shadow-md shadow-slate-900 md:shadow-none md:border-l md:border-slate-500 overflow-auto`}>
 				<div className="p-8">
 					<h2 className="font-bold text-xl text-white mb-8">Trends</h2>
 
