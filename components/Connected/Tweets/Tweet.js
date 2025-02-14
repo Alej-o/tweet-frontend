@@ -14,25 +14,27 @@ import { faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 const formatHashtag = (string) => {
     return string.split(/(#{1}[a-z0-9_]{2,})/gi).map((part, index) =>
         part.startsWith("#") ? (
-            <Link href={`http://localhost:3001/trends/${part.slice(1)}`} key={index}><span className="text-blue-500 cursor-pointer">{part}</span></Link>
+            <Link href={`http://localhost:3001/home?hashtag=${part.slice(1)}`} key={index}><span className="text-blue-500 cursor-pointer">{part}</span></Link>
         ) : (
             part
         )
     );
 }
 
-function Tweet({ tweet, user }) {
-    const [isLike, setIsLike] = useState(false);
+function Tweet({ deleteTweet, tweet, user}) {
+    const [isLike, setIsLike] = useState(tweet.isLiked);
 
     const handleLike = async () => {
         try {
-            isLike ? tweet.like -= 1 : tweet.like += 1;
-            setIsLike(!isLike);
+            const response = await axios.post('http://localhost:3000/likes/addLike', {
+                tweetId : tweet._id,
+                token: user.token
+            });
 
-            // const response = await axios.post('http://localhost:3000/tweets/addLike', {
-            //     id : tweet._id,
-            //     token: user.token
-            // });
+            if (response.data.result) {
+                isLike ? tweet.like -= 1 : tweet.like += 1;
+                setIsLike(!isLike);
+            }
         } catch (e) {
             console.error('Error with axios POST /tweets/addLike', e);
         }
@@ -40,8 +42,11 @@ function Tweet({ tweet, user }) {
 
     const handleDelete = async () => {
         try {
+            const response = await axios.delete(`http://localhost:3000/tweets/${tweet._id}?token=${user.token}`)
 
-            // const response = await axios.delete(`http://localhost:3000/tweets/delete/${tweet._id}?token=${token: user.token}`)
+            if (response.data.result) {
+                deleteTweet(tweet);
+            }
         } catch (e) {
             console.error('Error with axios Delete /tweets/addLike', e);
         }
@@ -51,14 +56,14 @@ function Tweet({ tweet, user }) {
         <div className="text-white p-8 border-b border-slate-500 last:border-none">
             <div className="flex gap-2 items-center mb-4">
                 <div className="h-10 w-10 rounded-full bg-blue-300"></div>
-                <span>{tweet.user?.firstname} @{tweet.user?.username} - {dayjs(tweet.createdAt).fromNow()}</span>
+                <span><span className="font-bold">{tweet.user?.firstname}</span> <span className="text-slate-500 text-sm">@{tweet.user?.username} - {dayjs(tweet.createdAt).fromNow()}</span></span>
             </div>
             <div className="mb-4">
                 <p>{formatHashtag(tweet.content)}</p>
             </div>
             <div className="flex gap-3">
                 <span><FontAwesomeIcon onClick={handleLike} className={`cursor-pointer hover:opacity-80 ${isLike && 'text-red-500'}`} icon={faHeart} />&nbsp;<span>{tweet.like}</span></span>
-                {user.token === tweet.user.token && <span><FontAwesomeIcon onClick={handleDelete} className={`cursor-pointer hover:opacity-80 ${isLike && 'text-red-500'}`} icon={faTrash} /></span>}
+                {user.token === tweet.user.token && <span><FontAwesomeIcon onClick={handleDelete} className={`cursor-pointer hover:opacity-80`} icon={faTrash} /></span>}
             </div>
         </div>
     )

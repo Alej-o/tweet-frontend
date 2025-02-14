@@ -4,7 +4,6 @@ import axios from 'axios';
 
 
 const checkTweet = (string) => {
-    console.log(/#{1}[a-z0-9]{2,}/i.test(string), string.length);
     return (string.length > 0 && /#{1}[a-z0-9]{2,}/i.test(string));
 }
 
@@ -19,15 +18,12 @@ function WriteTweet({setTweets}) {
     const saveTweet = async () => {
         if (checkTweet(content)) {
             try {
-                console.log('hrer');
                 const response = await axios.post('http://localhost:3000/tweets/addTweet', {
                     content: content,
                     token: token,
                 });
 
-                console.log('none');
-
-                setTweets(prev => [...prev, response.data.content]);
+                setTweets(prev => [response.data.content, ...prev]);
                 setContent('');
             } catch (e) {
                 console.error('Error with saveTweet() =>', e);
